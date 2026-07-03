@@ -298,9 +298,10 @@
       <p style="font-size:13.5px; color:rgba(255,255,255,.9); line-height:1.7; margin:0 0 22px;">後悔する前に、今この瞬間にエントリーを。</p>
       <div class="thanks" id="entry-thanks" style="display:none; background:rgba(255,255,255,.2); border-radius:16px; padding:18px; font-weight:700; font-size:14px;">🎉 エントリーありがとう！詳細をメールでお送りします。</div>
       <form class="entry-form" id="entry-form" onsubmit="handleEntry(event)" style="display:flex; flex-direction:column; gap:10px;">
-        <input type="email" required placeholder="メールアドレスを入力" style="width:100%; box-sizing:border-box; padding:15px 18px; border-radius:14px; border:none; font-size:14px; font-family:inherit; outline:none;">
-        <button type="submit" style="width:100%; padding:16px; border-radius:14px; border:none; background:#15314b; color:#fff; font-weight:900; font-size:15px; font-family:inherit; cursor:pointer;">この夏、自分に賭けてみる（先行予約）</button>
+        <input type="email" id="entry-email" name="email" required autocomplete="email" placeholder="メールアドレスを入力" style="width:100%; box-sizing:border-box; padding:15px 18px; border-radius:14px; border:none; font-size:14px; font-family:inherit; outline:none;">
+        <button type="submit" id="entry-submit" style="width:100%; padding:16px; border-radius:14px; border:none; background:#15314b; color:#fff; font-weight:900; font-size:15px; font-family:inherit; cursor:pointer;">この夏、自分に賭けてみる（先行予約）</button>
       </form>
+      <p class="entry-error" id="entry-error" style="display:none; font-size:12.5px; font-weight:700; color:#fff; background:rgba(220,38,38,.35); border-radius:12px; padding:12px; margin:12px 0 0;">送信に失敗しました。時間をおいて再度お試しください。</p>
       <p style="font-size:11px; color:rgba(255,255,255,.7); margin:14px 0 0;">先行予約は無料・決済はスタート確定後</p>
     </div>
 
@@ -308,16 +309,54 @@
       <div style="font-weight:900; color:#fff; font-size:14px; margin-bottom:4px;">SummerGoals</div>
       <div style="margin-bottom:12px;">大学生のための、30日間 限界突破プログラム</div>
       <div style="display:flex; justify-content:center; gap:18px; margin-bottom:12px;"><span>利用規約</span><span>プライバシー</span><span>特商法</span></div>
+      <div style="margin-bottom:12px;">お問い合わせ：<a href="mailto:iwase.workslab@gmail.com" style="color:#9bafc1; text-decoration:underline;">iwase.workslab@gmail.com</a></div>
       <div style="color:#456;">© 2026 SummerGoals</div>
     </div>
   </div>
 </div>
 
 <script>
-  function handleEntry(e) {
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  async function handleEntry(e) {
     e.preventDefault();
-    document.getElementById('entry-form').style.display = 'none';
-    document.getElementById('entry-thanks').style.display = 'block';
+    var form = document.getElementById('entry-form');
+    var input = document.getElementById('entry-email');
+    var btn = document.getElementById('entry-submit');
+    var errEl = document.getElementById('entry-error');
+    var email = (input.value || '').trim();
+
+    errEl.style.display = 'none';
+    if (!EMAIL_RE.test(email)) {
+      errEl.textContent = 'メールアドレスの形式が正しくないようです。';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    var originalLabel = btn.textContent;
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.style.cursor = 'default';
+    btn.textContent = '送信中…';
+
+    try {
+      var res = await fetch('/api/preregister', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email }),
+      });
+      if (!res.ok) throw new Error('bad_status_' + res.status);
+      // 成功：フォームを隠してサンクスを表示
+      form.style.display = 'none';
+      document.getElementById('entry-thanks').style.display = 'block';
+    } catch (err) {
+      errEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.style.opacity = '';
+      btn.style.cursor = 'pointer';
+      btn.textContent = originalLabel;
+    }
   }
 </script>
 </body>
