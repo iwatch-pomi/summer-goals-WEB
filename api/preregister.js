@@ -57,7 +57,9 @@ async function saveToStorage(email, req) {
     throw e;
   }
 
-  const endpoint = `${url.replace(/\/+$/, '')}/rest/v1/${encodeURIComponent(table)}`;
+  // SUPABASE_URL に末尾スラッシュや `/rest/v1` が付いていても正しく正規化する
+  const base = url.replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
+  const endpoint = `${base}/rest/v1/${encodeURIComponent(table)}`;
   const resp = await fetch(endpoint, {
     method: 'POST',
     headers: {
