@@ -1,17 +1,18 @@
 // SummerGoals 先行予約 受付エンドポイント（Vercel サーバーレス関数）
 //
 // フロント（index.html）から POST /api/preregister に {email} が送られてくる。
-// 受け取ったメールを外部ストレージ（Airtable）へ保存する。
-// Airtable の認証情報は Vercel の環境変数に置き、クライアントには一切露出しない。
+// 受け取ったメールを外部ストレージ（Supabase）へ保存する。
+// Supabase の認証情報は Vercel の環境変数に置き、クライアントには一切露出しない。
 //
 // ── 必要な環境変数（Vercel > Project > Settings > Environment Variables）──
-//   AIRTABLE_TOKEN    : Airtable の Personal Access Token（data.records:write 権限）
-//   AIRTABLE_BASE_ID  : 保存先 Base の ID（app... で始まる）
-//   AIRTABLE_TABLE    : テーブル名（未設定なら "PreRegistrations"）
+//   SUPABASE_URL               : プロジェクトURL（例: https://xxxx.supabase.co）
+//   SUPABASE_SERVICE_ROLE_KEY  : service_role キー（サーバー専用の秘密鍵。絶対に公開しない）
+//   SUPABASE_TABLE             : テーブル名（未設定なら "preregistrations"）
 //
-// Airtable 側テーブルのフィールド想定: Email(1行テキスト) / CreatedAt(1行テキスト or 日時) / Source(1行テキスト)
+// Supabase 側テーブルの想定カラム:
+//   id(bigint, identity) / email(text) / source(text) / created_at(timestamptz, default now())
 //
-// ※ ストレージを Supabase / Google Sheets 等へ差し替える場合は、下部の
+// ※ ストレージを Airtable / Google Sheets 等へ差し替える場合は、下部の
 //    saveToStorage() の中身だけ入れ替えれば良い（呼び出し側は変更不要）。
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -44,40 +45,37 @@ export default async function handler(req, res) {
   }
 }
 
-// ── ストレージ保存（Airtable 実装） ──
+// ── ストレージ保存（Supabase 実装 / PostgREST 経由） ──
 async function saveToStorage(email, req) {
-  const token = process.env.AIRTABLE_TOKEN;
-  const baseId = process.env.AIRTABLE_BASE_ID;
-  const table = process.env.AIRTABLE_TABLE || 'PreRegistrations';
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const table = process.env.SUPABASE_TABLE || 'preregistrations';
 
-  if (!token || !baseId) {
+  if (!url || !key) {
     const e = new Error('storage_not_configured');
     e.code = 'not_configured';
     throw e;
   }
 
-  const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`;
-  const resp = await fetch(url, {
+  const endpoint = `${url.replace(/\/+$/, '')}/rest/v1/${encodeURIComponent(table)}`;
+  const resp = await fetch(endpoint, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      'apikey': key,
+      'Authorization': `Bearer ${key}`,
       'Content-Type': 'application/json',
+      'Prefer': 'return=minimal',
     },
-    body: JSON.stringify({
-      typecast: true,
-      records: [{
-        fields: {
-          Email: email,
-          CreatedAt: new Date().toISOString(),
-          Source: 'LP',
-        },
-      }],
-    }),
+    body: JSON.stringify([{
+      email: email,
+      source: 'LP',
+      created_at: new Date().toISOString(),
+    }]),
   });
 
   if (!resp.ok) {
     const detail = await resp.text().catch(() => '');
-    const e = new Error(`airtable_error ${resp.status} ${detail}`);
+    const e = new Error(`supabase_error ${resp.status} ${detail}`);
     e.code = 'storage_error';
     throw e;
   }
