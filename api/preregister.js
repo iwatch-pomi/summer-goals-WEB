@@ -75,6 +75,13 @@ async function saveToStorage(email, req) {
 
   if (!resp.ok) {
     const detail = await resp.text().catch(() => '');
+    // Vercel の Logs に Supabase の生エラーを出す（原因特定用）
+    console.error('[preregister] supabase insert failed', {
+      status: resp.status,
+      endpoint,
+      table,
+      detail,
+    });
     const e = new Error(`supabase_error ${resp.status} ${detail}`);
     e.code = 'storage_error';
     throw e;
