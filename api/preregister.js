@@ -117,7 +117,7 @@ export function buildConfirmationMail(to, fromUser) {
     '預けた継続保証金3,000円が全額返金される、',
     '大学生のための習慣化プログラムです。',
     '',
-    '・8月1日 一斉スタート',
+    '・8月12日 一斉スタート',
     '・参加費500円 ＋ 継続保証金3,000円（完走で全額返金）',
     '・決済はスタート確定後にご案内します',
     '',
@@ -142,7 +142,7 @@ export function buildConfirmationMail(to, fromUser) {
       <p style="font-weight:900; margin:0 0 6px;">SummerGoals とは</p>
       <p style="margin:0 0 14px; font-size:14px;">30日間、毎日証拠写真で報告して完走すれば、預けた継続保証金3,000円が全額返金される、大学生のための習慣化プログラムです。</p>
       <ul style="margin:0 0 16px; padding-left:20px; font-size:14px;">
-        <li>8月1日 一斉スタート</li>
+        <li>8月12日 一斉スタート</li>
         <li>参加費500円 ＋ 継続保証金3,000円（完走で全額返金）</li>
         <li>決済はスタート確定後にご案内します</li>
       </ul>
