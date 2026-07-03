@@ -80,7 +80,26 @@ vercel dev      # ローカルで /api も含めて起動（要 Vercel ログイ
 
 4. **Deploy** を押す。数十秒で `https://<プロジェクト名>.vercel.app` が発行されます。
 
-> フレームワークプリセットは **Other**（静的 + `api/`）でOK。ビルドコマンドは不要です。
+> フレームワークプリセットは **Other**（静的 + `api/`）でOK。ビルドコマンドは不要です（`npm install` は Vercel が自動実行）。
+
+### （任意）登録完了メールの自動送信
+
+登録者に自動で「先行予約を受け付けました」メールを送りたい場合、**Gmail のアプリパスワード**を使います（独自ドメイン不要）。設定しなければメール送信はスキップされ、登録（Supabase保存）だけ行われます。
+
+1. 送信元にする Google アカウント（例：**iwase.workslab@gmail.com**）で **2段階認証を有効化**
+2. [アプリパスワード](https://myaccount.google.com/apppasswords) を作成 → 16桁のパスワードを控える
+3. Vercel の Environment Variables に追加：
+
+   | Name | Value | Sensitive |
+   |------|-------|-----------|
+   | `GMAIL_USER` | 送信元Gmailアドレス | ─ |
+   | `GMAIL_APP_PASSWORD` | 手順2の16桁アプリパスワード | ✅ する |
+
+4. 再デプロイ（環境変数追加後は Deployments → Redeploy）
+
+- 送信元・宛先ともに実在アドレスに送れます。運営（`GMAIL_USER`）にも **BCC で控え**が届きます（不要なら `api/preregister.js` の `bcc` 行を削除）。
+- メール送信は**ベストエフォート**：万一送信に失敗しても登録自体は成功（フォームは完了表示）になり、失敗内容は Vercel Logs に記録されます。
+- 文面は `api/preregister.js` の `buildConfirmationMail()` で編集できます。
 
 ### 3. 動作確認
 

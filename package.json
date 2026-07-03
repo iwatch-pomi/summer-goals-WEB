@@ -2,8 +2,12 @@
   "name": "summergoals-lp",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "SummerGoals 先行予約LP（Vercel: 静的LP + /api サーバーレス関数）",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.14"
   }
 }

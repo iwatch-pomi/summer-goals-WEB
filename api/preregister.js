@@ -9,6 +9,10 @@
 //   SUPABASE_SERVICE_ROLE_KEY  : service_role キー（サーバー専用の秘密鍵。絶対に公開しない）
 //   SUPABASE_TABLE             : テーブル名（未設定なら "preregistrations"）
 //
+//   ── 登録完了メール（任意・未設定ならメール送信はスキップ） ──
+//   GMAIL_USER                 : 送信元Gmailアドレス（例: iwase.workslab@gmail.com）
+//   GMAIL_APP_PASSWORD         : Googleアカウントのアプリパスワード（16桁。通常のログインPWではない）
+//
 // Supabase 側テーブルの想定カラム:
 //   id(bigint, identity) / email(text) / source(text) / created_at(timestamptz, default now())
 //
@@ -37,12 +41,20 @@ export default async function handler(req, res) {
 
   try {
     await saveToStorage(email, req);
-    return res.status(200).json({ ok: true });
   } catch (err) {
     // 設定不足はサーバー側の問題として 500、ストレージ側エラーは 502
     const status = err && err.code === 'not_configured' ? 500 : 502;
     return res.status(status).json({ error: err && err.code ? err.code : 'storage_error' });
   }
+
+  // 登録完了メールはベストエフォート：失敗しても登録自体は成功扱い（200）にする。
+  try {
+    await sendConfirmationEmail(email);
+  } catch (err) {
+    console.error('[preregister] confirmation email failed', err && err.message ? err.message : err);
+  }
+
+  return res.status(200).json({ ok: true });
 }
 
 // ── ストレージ保存（Supabase 実装 / PostgREST 経由） ──
@@ -88,4 +100,90 @@ async function saveToStorage(email, req) {
     e.code = 'storage_error';
     throw e;
   }
+}
+
+// ── 登録完了メールの本文組み立て（純粋関数・テスト用に分離） ──
+export function buildConfirmationMail(to, fromUser) {
+  const text = [
+    'この度は SummerGoals の先行予約ありがとうございます。',
+    '以下の内容でご登録を受け付けました。',
+    '',
+    `　メールアドレス：${to}`,
+    '',
+    '━━━━━━━━━━━━━━━━━━',
+    'SummerGoals とは',
+    '━━━━━━━━━━━━━━━━━━',
+    '30日間、毎日証拠写真で報告して完走すれば、',
+    '預けた継続保証金3,000円が全額返金される、',
+    '大学生のための習慣化プログラムです。',
+    '',
+    '・8月1日 一斉スタート',
+    '・参加費500円 ＋ 継続保証金3,000円（完走で全額返金）',
+    '・決済はスタート確定後にご案内します',
+    '',
+    '開始日が近づきましたら、改めて詳細をご連絡します。',
+    'いましばらくお待ちください。',
+    '',
+    '※本メールは送信専用アドレスから配信しています。',
+    '― SummerGoals 運営',
+  ].join('\n');
+
+  const html = `
+  <div style="font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif; color:#15314b; line-height:1.8; max-width:520px;">
+    <div style="background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; padding:20px 24px; border-radius:14px 14px 0 0;">
+      <div style="font-weight:900; font-size:18px;">SummerGoals</div>
+      <div style="font-size:13px; opacity:.9; margin-top:4px;">先行予約を受け付けました 🎉</div>
+    </div>
+    <div style="border:1px solid #e3eef5; border-top:none; padding:22px 24px; border-radius:0 0 14px 14px;">
+      <p style="margin:0 0 14px;">この度は SummerGoals の先行予約ありがとうございます。<br>以下の内容でご登録を受け付けました。</p>
+      <p style="margin:0 0 18px; background:#f6fafd; border-radius:10px; padding:12px 14px; font-size:14px;">
+        メールアドレス：<b>${escapeHtml(to)}</b>
+      </p>
+      <p style="font-weight:900; margin:0 0 6px;">SummerGoals とは</p>
+      <p style="margin:0 0 14px; font-size:14px;">30日間、毎日証拠写真で報告して完走すれば、預けた継続保証金3,000円が全額返金される、大学生のための習慣化プログラムです。</p>
+      <ul style="margin:0 0 16px; padding-left:20px; font-size:14px;">
+        <li>8月1日 一斉スタート</li>
+        <li>参加費500円 ＋ 継続保証金3,000円（完走で全額返金）</li>
+        <li>決済はスタート確定後にご案内します</li>
+      </ul>
+      <p style="margin:0 0 4px; font-size:14px;">開始日が近づきましたら、改めて詳細をご連絡します。いましばらくお待ちください。</p>
+      <p style="margin:18px 0 0; font-size:11px; color:#9bafc1;">※本メールは送信専用アドレスから配信しています。<br>― SummerGoals 運営</p>
+    </div>
+  </div>`;
+
+  return {
+    from: `SummerGoals <${fromUser}>`,
+    to,
+    bcc: fromUser, // 運営にも控えが届く（不要なら削除）
+    subject: '【SummerGoals】先行予約を受け付けました',
+    text,
+    html,
+  };
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
+// ── 登録完了メール送信（Gmail SMTP / nodemailer） ──
+async function sendConfirmationEmail(to) {
+  const user = process.env.GMAIL_USER;
+  const pass = process.env.GMAIL_APP_PASSWORD;
+
+  // 未設定ならスキップ（登録自体は成功させる）
+  if (!user || !pass) {
+    console.warn('[preregister] email not configured (GMAIL_USER/GMAIL_APP_PASSWORD) — skip sending');
+    return;
+  }
+
+  // nodemailer は送信時のみ動的 import（未設定時に依存を読み込まない）
+  const nodemailer = (await import('nodemailer')).default;
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user, pass },
+  });
+
+  await transporter.sendMail(buildConfirmationMail(to, user));
 }
