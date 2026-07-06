@@ -7,7 +7,7 @@
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>SummerGoals｜この夏、“ちゃんとやった”側になる。</title>
-<meta name="description" content="3,000円を先に預けて毎日証拠写真で報告。30日やり切れば全額返金。実質ワンコイン（参加費500円）で、最高に集中できる大学生の夏を。開始日は8/12〜9/10で自由に選べる（選んだ日から30日間）。">
+<meta name="description" content="3,000円を先に預けて毎日報告（写真・ボタン・タイマーから選択）。30日やり切れば全額返金。タイマー報告なら物理的にサボれない。開始日は8/12〜9/10で自由に選べる（選んだ日から30日間）。">
 
 <link rel="canonical" href="https://pr.summergoals.jp/">
 
@@ -70,6 +70,9 @@
     .flow > p:first-of-type, .flow > h2{ text-align:center; }
     .trust{ padding:22px 44px 40px !important; max-width:600px; margin:0 auto; }
 
+    /* 報告方法 -> 3カラム */
+    .methods{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:16px !important; align-items:stretch !important; }
+
     /* VOICES -> 3カラム */
     .voices-cards{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:16px !important; }
 
@@ -114,7 +117,7 @@
             大学生限定・開始日は8/12〜9/10で選べる
           </div>
           <h1 style="font-size:31px; line-height:1.34; font-weight:900; letter-spacing:-.02em; margin:0 0 18px;">この夏、<br>“ちゃんとやった”<br class="hero-br2"><span style="background:linear-gradient(120deg,#0ea5e9,#22c55e); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">側</span>になる。</h1>
-          <p class="lead" style="font-size:14.5px; line-height:1.85; color:#3f5b75; margin:0 0 24px;">3,000円を先に預けて、毎日証拠写真で報告。30日やり切れば<b style="color:#15314b;">預けた3,000円が返金</b>。かかるのはシステム料500円だけ、実質ワンコインで最高に集中できる夏を。</p>
+          <p class="lead" style="font-size:14.5px; line-height:1.85; color:#3f5b75; margin:0 0 24px;">3,000円を先に預けて、毎日ラクに報告（写真・ボタン・タイマーから選択）。30日やり切れば<b style="color:#15314b;">預けた3,000円が返金</b>。かかるのはシステム料500円だけ、実質ワンコインで最高に集中できる夏を。</p>
 
           <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #d6eef9; border-radius:16px; padding:14px 18px; margin-bottom:22px; box-shadow:0 4px 14px rgba(2,132,199,.08);">
             <span style="width:9px; height:9px; border-radius:999px; background:#22c55e; box-shadow:0 0 0 4px rgba(34,197,94,.18); animation:scPulse 1.6s infinite;"></span>
@@ -196,7 +199,7 @@
         </div>
         <div style="display:flex; gap:14px; align-items:center; background:#fff; border-radius:14px; padding:14px 16px;">
           <div style="flex-shrink:0; width:30px; height:30px; border-radius:999px; background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:14px;">2</div>
-          <div><div style="font-weight:700; font-size:13.5px;">平日は1日1回、証拠写真を報告</div><div style="font-size:11.5px; color:#7d93a8;">サボると1日100円が失効（土日はお休みOK）</div></div>
+          <div><div style="font-weight:700; font-size:13.5px;">平日は1日1回、報告（写真／ボタン／タイマー）</div><div style="font-size:11.5px; color:#7d93a8;">サボると1日100円が失効（土日はお休みOK）</div></div>
         </div>
         <div style="display:flex; gap:14px; align-items:center; background:#fff; border-radius:14px; padding:14px 16px;">
           <div style="flex-shrink:0; width:30px; height:30px; border-radius:999px; background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:14px;">3</div>
@@ -212,6 +215,36 @@
           <div style="font-size:12.5px; color:#5d7488; line-height:1.75;">開始日を<b style="color:#15314b;">8月12日〜9月10日</b>の中から選び、<b style="color:#15314b;">選んだ日から30日間</b>チャレンジ。その<b style="color:#15314b;">30日間に含まれる土日はお休みしてOK</b>（報告しなくても失効しません）。休める日数は開始日によって変わり（おおよそ8〜10日）、<b style="color:#15314b;">失効するのは平日分のみ</b>。日数は開始日ごとに自動計算されるので、無理なく続けられます。</div>
         </div>
       </div>
+    </div>
+
+    <!-- 報告方法（3択） -->
+    <div class="sec methods-sec" style="padding:38px 26px; background:#fff;">
+      <p class="eyebrow" style="font-size:11px; font-weight:700; letter-spacing:.16em; color:#0ea5e9; margin:0 0 10px;">HOW TO REPORT</p>
+      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 8px;">報告方法は、3つから選べる。</h2>
+      <p style="text-align:center; font-size:12.5px; color:#5d7488; line-height:1.75; margin:0 0 22px;">目標登録のときに、自分に合った続け方を選択。</p>
+      <div class="methods" style="display:flex; flex-direction:column; gap:12px;">
+        <!-- ① 写真 -->
+        <div style="background:#f6fafd; border:1px solid #e3eef5; border-radius:16px; padding:18px;">
+          <div style="font-size:26px; margin-bottom:8px;">📷</div>
+          <div style="font-weight:900; font-size:15px; margin-bottom:5px;">① 写真で報告</div>
+          <div style="font-size:12.5px; color:#5d7488; line-height:1.75;">勉強・筋トレの証拠写真を提出。しっかり記録に残したい人向けの定番スタイル。</div>
+        </div>
+        <!-- ② ボタン -->
+        <div style="background:#f6fafd; border:1px solid #e3eef5; border-radius:16px; padding:18px;">
+          <div style="font-size:26px; margin-bottom:8px;">👆</div>
+          <div style="font-weight:900; font-size:15px; margin-bottom:5px;">② ボタンで報告</div>
+          <div style="font-size:12.5px; color:#5d7488; line-height:1.75;">「今日やった！」をワンタップするだけ。とにかく手軽に習慣を刻みたい人に。</div>
+        </div>
+        <!-- ③ タイマー（強調） -->
+        <div style="position:relative; background:linear-gradient(160deg,#eaf7fb,#f3fbf4); border:2px solid #0ea5e9; border-radius:16px; padding:18px; box-shadow:0 8px 22px rgba(14,165,233,.16);">
+          <div style="position:absolute; top:-11px; right:14px; background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; font-size:10.5px; font-weight:900; padding:4px 11px; border-radius:999px; box-shadow:0 4px 10px rgba(14,165,233,.3);">サボれない設計 🔒</div>
+          <div style="font-size:26px; margin-bottom:8px;">⏱️</div>
+          <div style="font-weight:900; font-size:15px; margin-bottom:5px; color:#15314b;">③ タイマーで報告</div>
+          <div style="font-size:12.5px; color:#3f5b75; line-height:1.75;">目標登録時に決めた分数を、<b style="color:#15314b;">アプリ内タイマーで実際に集中</b>。カウントダウンが<b style="color:#15314b;">完了するまで報告ボタンは押せません</b>。「開いてすぐ完了」ができないから、<b style="color:#0284c7;">ごまかしようがない正直ベース</b>の仕組みです。</div>
+          <div style="margin-top:10px; display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #d6eef9; border-radius:999px; padding:5px 11px; font-size:11.5px; font-weight:700; color:#0284c7;">⏱ N分 集中 <span style="color:#9bafc1; font-weight:500;">とフィードに表示</span></div>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:12px; color:#7d93a8; margin:18px 0 0;">どの方法でも、平日1日1回の報告で継続を証明。<b style="color:#16a34a;">「タイマー」なら物理的にサボれない。</b></p>
     </div>
 
     <!-- money flow + trust (PCで2カラム) -->
