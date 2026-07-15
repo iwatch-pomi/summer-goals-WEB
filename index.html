@@ -6,14 +6,14 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<title>SummerGoals｜この夏、“ちゃんとやった”側になる。</title>
-<meta name="description" content="3,000円を先に預けて毎日報告（写真・ボタン・タイマーから選択）。30日やり切れば全額返金。タイマー報告なら物理的にサボれない。開始日は8/12〜9/10で自由に選べる（選んだ日から30日間）。">
+<title>ススメ｜参考書の進捗で競う、受験生ランキング</title>
+<meta name="description" content="勉強した“時間”じゃなく、“進んだページ”で勝負。参考書・教科書の進捗をページ数で記録して、全国の受験生・資格勢と週間ランキング＆連続記録で競い合える。完全無料。">
 
 <link rel="canonical" href="https://pr.summergoals.jp/">
 
 <!-- OGP -->
-<meta property="og:title" content="SummerGoals｜この夏、“ちゃんとやった”側になる。">
-<meta property="og:description" content="サボったら失効、やり切れば全額返金。匿名チームで挑む、大学生のための30日間 限界突破プログラム。">
+<meta property="og:title" content="ススメ｜参考書の進捗で競う、受験生ランキング">
+<meta property="og:description" content="“進んだページ”で勝負。参考書の進捗を記録して全国の受験生とランキングで競う、完全無料の進捗アプリ。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pr.summergoals.jp/">
 <meta property="og:locale" content="ja_JP">
@@ -25,6 +25,7 @@
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
   @keyframes scPulse { 0%,100%{ transform:scale(1); opacity:1 } 50%{ transform:scale(1.5); opacity:.4 } }
+  @keyframes barGrow { from{ width:0 } to{ width:var(--w) } }
 
   .page{ min-height:100vh; background:#eef2f6; display:flex; justify-content:center; font-family:'Noto Sans JP',sans-serif; }
   .app{ width:100%; max-width:440px; background:#ffffff; box-shadow:0 0 40px rgba(15,37,64,.08); overflow:hidden; color:#15314b; }
@@ -41,8 +42,7 @@
     .hero-region{ display:block; padding:0; }
     .hero{ padding:64px 44px 56px !important; border-radius:0 !important; }
     .hero > div:last-child{ max-width:680px; margin:0 auto; }
-    .hero h1{ font-size:48px !important; }
-    .hero h1 .hero-br2{ display:none; } /* PCでは「側になる」を“ちゃんとやった”の右隣に */
+    .hero h1{ font-size:46px !important; }
     .hero .lead{ font-size:16px !important; }
 
     /* 数字カード -> 3カラム、ヒーロー下端に少し重ねる */
@@ -54,30 +54,20 @@
     .sec{ padding-left:44px !important; padding-right:44px !important; }
     .eyebrow{ text-align:center !important; }
     .title{ text-align:center !important; }
+    .sec-lead{ text-align:center !important; }
 
-    /* THE PAIN -> 3カラム */
+    /* 3カラム系（PAIN / 3本柱 / 報告 / VOICES） */
     .cards3{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:16px !important; }
     .cards3 > div{ flex-direction:column !important; }
+    .methods{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:16px !important; align-items:stretch !important; }
+    .voices-cards{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:16px !important; }
 
-    /* WHY IT WORKS */
-    .mech-cards{ display:grid !important; grid-template-columns:1fr 1fr !important; gap:16px !important; }
+    /* ステップ 3カラム */
     .steps{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:14px !important; align-items:stretch !important; }
     .steps > div{ align-items:flex-start !important; }
 
-    /* MONEY FLOW + trust -> 単一カラム（図解を中央、バッジは下に3列） */
-    .flow-region{ display:block; padding:8px 0 0; }
-    .flow{ padding:40px 44px 0 !important; max-width:600px; margin:0 auto; }
-    .flow > p:first-of-type, .flow > h2{ text-align:center; }
-    .trust{ padding:22px 44px 40px !important; max-width:600px; margin:0 auto; }
-
-    /* 報告方法 -> 3カラム */
-    .methods{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:16px !important; align-items:stretch !important; }
-
-    /* VOICES -> 3カラム */
-    .voices-cards{ display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:16px !important; }
-
-    /* pricing 中央寄せ */
-    .price-card{ max-width:520px; margin:0 auto; }
+    /* ランキング / 無料カード 中央寄せ */
+    .rank-card, .free-card{ max-width:520px; margin:0 auto; }
 
     /* final CTA */
     .cta h2{ font-size:34px !important; }
@@ -98,14 +88,14 @@
   <div class="app">
 
     <div class="hd" style="position:sticky; top:0; z-index:50; height:54px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; background:rgba(255,255,255,.9); backdrop-filter:blur(10px);">
-      <div class="logo" style="font-weight:900; font-size:16px;">Summer<span style="color:#0ea5e9;">Goals</span></div>
+      <div class="logo" style="font-weight:900; font-size:16px;">スス<span style="color:#0ea5e9;">メ</span></div>
       <div style="display:flex; align-items:center; gap:10px;">
         <a href="https://lin.ee/oxhB3Sg" target="_blank" rel="noopener" aria-label="LINEで友だち追加"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" style="height:30px; width:auto; vertical-align:middle;"></a>
-        <a href="#c-entry" style="font-size:12px; font-weight:700; color:#fff; background:linear-gradient(120deg,#0ea5e9,#22c55e); padding:8px 16px; border-radius:999px; text-decoration:none;">エントリー</a>
+        <a href="#c-entry" style="font-size:12px; font-weight:700; color:#fff; background:linear-gradient(120deg,#0ea5e9,#22c55e); padding:8px 16px; border-radius:999px; text-decoration:none;">無料登録</a>
       </div>
     </div>
 
-    <!-- hero region (PCで2カラム) -->
+    <!-- hero region (PCで横バンド) -->
     <div class="hero-region">
 
       <!-- hero -->
@@ -114,24 +104,24 @@
         <div style="position:relative;">
           <div style="display:inline-flex; align-items:center; gap:7px; background:#fff; color:#0284c7; font-size:11.5px; font-weight:700; padding:7px 13px; border-radius:999px; margin-bottom:20px; box-shadow:0 2px 8px rgba(2,132,199,.12);">
             <span style="width:7px; height:7px; border-radius:999px; background:#22c55e; animation:scPulse 1.8s infinite;"></span>
-            大学生限定・開始日は8/12〜9/10で選べる
+            受験生・資格勢のための進捗ランキング
           </div>
-          <h1 style="font-size:31px; line-height:1.34; font-weight:900; letter-spacing:-.02em; margin:0 0 18px;">この夏、<br>“ちゃんとやった”<br class="hero-br2"><span style="background:linear-gradient(120deg,#0ea5e9,#22c55e); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">側</span>になる。</h1>
-          <p class="lead" style="font-size:14.5px; line-height:1.85; color:#3f5b75; margin:0 0 24px;">3,000円を先に預けて、毎日ラクに報告（写真・ボタン・タイマーから選択）。30日やり切れば<b style="color:#15314b;">預けた3,000円が返金</b>。かかるのはシステム料500円だけ、実質ワンコインで最高に集中できる夏を。</p>
+          <h1 style="font-size:30px; line-height:1.34; font-weight:900; letter-spacing:-.02em; margin:0 0 18px;">勉強した“時間”じゃない。<br><span style="background:linear-gradient(120deg,#0ea5e9,#22c55e); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">“進んだページ”</span>で勝負。</h1>
+          <p class="lead" style="font-size:14.5px; line-height:1.85; color:#3f5b75; margin:0 0 24px;">参考書・教科書の「今日進んだページ数」を記録するだけ。全国の受験生・資格勢と、<b style="color:#15314b;">週間ランキング</b>と<b style="color:#15314b;">連続記録（ストリーク）</b>で競い合える。もちろん<b style="color:#15314b;">完全無料</b>。</p>
 
           <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #d6eef9; border-radius:16px; padding:14px 18px; margin-bottom:22px; box-shadow:0 4px 14px rgba(2,132,199,.08);">
             <span style="width:9px; height:9px; border-radius:999px; background:#22c55e; box-shadow:0 0 0 4px rgba(34,197,94,.18); animation:scPulse 1.6s infinite;"></span>
-            <div style="font-size:12.5px; color:#3f5b75;"><b style="color:#15314b; font-weight:900;">先行予約 受付中</b> ／ 開始日は8/12〜9/10で選べる 🔥</div>
+            <div style="font-size:12.5px; color:#3f5b75;"><b style="color:#15314b; font-weight:900;">先行登録 受付中</b> ／ ローンチしたら最速でお知らせ 🔥</div>
           </div>
 
           <div style="text-align:center; margin-bottom:14px;">
             <a href="https://lin.ee/oxhB3Sg" target="_blank" rel="noopener" aria-label="LINEで友だち追加"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" style="height:40px; width:auto;"></a>
-            <div style="font-size:11.5px; color:#7d93a8; margin-top:6px;">LINEでも最新情報・先行予約をお届け</div>
+            <div style="font-size:11.5px; color:#7d93a8; margin-top:6px;">LINEでも先行登録・最新情報をお届け</div>
           </div>
           <a href="#c-entry" style="display:flex; align-items:center; justify-content:center; gap:8px; background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; font-weight:900; font-size:16px; padding:17px; border-radius:16px; text-decoration:none; box-shadow:0 10px 22px rgba(14,165,233,.3);">
-            この夏、自分に賭けてみる <span style="font-size:18px;">→</span>
+            無料で先行登録する <span style="font-size:18px;">→</span>
           </a>
-          <p style="text-align:center; font-size:11.5px; color:#7d93a8; margin:12px 0 0;">先行予約（無料）・決済はスタート確定後</p>
+          <p style="text-align:center; font-size:11.5px; color:#7d93a8; margin:12px 0 0;">登録は無料・メールアドレスだけ</p>
         </div>
       </div>
 
@@ -139,16 +129,16 @@
       <div class="numbers-wrap" style="padding:0 26px; margin-top:-22px; position:relative; z-index:2;">
         <div class="numbers" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
           <div class="num" style="background:#fff; border:1px solid #eef2f6; border-radius:16px; padding:16px 6px; text-align:center; box-shadow:0 6px 16px rgba(21,49,75,.06);">
-            <div style="font-size:22px; font-weight:900; color:#0ea5e9;">30<span style="font-size:12px;">日</span></div>
-            <div style="font-size:10.5px; color:#7d93a8; margin-top:3px;">完走</div>
+            <div style="font-size:22px;">📖</div>
+            <div style="font-size:11px; font-weight:900; color:#15314b; margin-top:4px; line-height:1.4;">ページで<br>記録</div>
           </div>
           <div class="num" style="background:#fff; border:1px solid #eef2f6; border-radius:16px; padding:16px 6px; text-align:center; box-shadow:0 6px 16px rgba(21,49,75,.06);">
-            <div style="font-size:18px; font-weight:900; color:#0ea5e9; margin-top:3px;">チーム</div>
-            <div style="font-size:10.5px; color:#7d93a8; margin-top:3px;">匿名・ソロ可</div>
+            <div style="font-size:22px;">🏆</div>
+            <div style="font-size:11px; font-weight:900; color:#15314b; margin-top:4px; line-height:1.4;">週間<br>ランキング</div>
           </div>
           <div class="num" style="background:#fff; border:1px solid #eef2f6; border-radius:16px; padding:16px 6px; text-align:center; box-shadow:0 6px 16px rgba(21,49,75,.06);">
-            <div style="font-size:18px; font-weight:900; color:#22c55e;">¥500</div>
-            <div style="font-size:10.5px; color:#7d93a8; margin-top:3px;">参加費のみ</div>
+            <div style="font-size:22px; font-weight:900; color:#22c55e;">¥0</div>
+            <div style="font-size:11px; font-weight:900; color:#15314b; margin-top:4px; line-height:1.4;">完全<br>無料</div>
           </div>
         </div>
       </div>
@@ -158,188 +148,183 @@
     <!-- pain -->
     <div class="sec pain" style="padding:40px 26px 36px;">
       <p class="eyebrow" style="font-size:11px; font-weight:700; letter-spacing:.16em; color:#0ea5e9; margin:0 0 10px;">THE PAIN</p>
-      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 22px;">……それ、毎年のこと<br>じゃない？</h2>
+      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 22px;">その勉強、“やった気”で<br>終わってない？</h2>
       <div class="cards3" style="display:flex; flex-direction:column; gap:12px;">
         <div style="display:flex; gap:14px; align-items:flex-start; background:#f6fafd; border-radius:16px; padding:16px 18px;">
-          <div style="font-size:22px;">😴</div>
-          <div><div style="font-weight:900; font-size:14.5px; margin-bottom:3px;">「明日からやる」が口癖</div><div style="font-size:12.5px; color:#5d7488; line-height:1.7;">気づけば締切前日に徹夜。今年こそ、と毎年思ってる。</div></div>
+          <div style="font-size:22px;">😵‍💫</div>
+          <div><div style="font-weight:900; font-size:14.5px; margin-bottom:3px;">「3時間やった」で満足</div><div style="font-size:12.5px; color:#5d7488; line-height:1.7;">時間は測ったけど、結局“何ページ進んだ”かは曖昧なまま。</div></div>
         </div>
         <div style="display:flex; gap:14px; align-items:flex-start; background:#f6fafd; border-radius:16px; padding:16px 18px;">
-          <div style="font-size:22px;">📱</div>
-          <div><div style="font-weight:900; font-size:14.5px; margin-bottom:3px;">気づけば1日が溶けてる</div><div style="font-size:12.5px; color:#5d7488; line-height:1.7;">SNSを開いたら数時間。「今日も何もしなかった」</div></div>
+          <div style="font-size:22px;">📚</div>
+          <div><div style="font-weight:900; font-size:14.5px; margin-bottom:3px;">参考書が積読で終わる</div><div style="font-size:12.5px; color:#5d7488; line-height:1.7;">買ったのに最後まで終わらない。達成感も自信も残らない。</div></div>
         </div>
         <div style="display:flex; gap:14px; align-items:flex-start; background:#f6fafd; border-radius:16px; padding:16px 18px;">
-          <div style="font-size:22px;">🍂</div>
-          <div><div style="font-weight:900; font-size:14.5px; margin-bottom:3px;">9月、また何も変わってない</div><div style="font-size:12.5px; color:#5d7488; line-height:1.7;">「あの2ヶ月、何してたんだっけ」</div></div>
+          <div style="font-size:22px;">🧍</div>
+          <div><div style="font-weight:900; font-size:14.5px; margin-bottom:3px;">一人だと、つい緩む</div><div style="font-size:12.5px; color:#5d7488; line-height:1.7;">比べる相手も、見てくれる人もいない。だから今日もサボる。</div></div>
         </div>
       </div>
-      <p style="text-align:center; font-size:16px; font-weight:900; margin:24px 0 0; line-height:1.6;">意志が弱いんじゃない。<br><span style="color:#0ea5e9;">「続く仕組み」</span>が無かっただけ。</p>
+      <p style="text-align:center; font-size:16px; font-weight:900; margin:24px 0 0; line-height:1.6;">意志が弱いんじゃない。<br><span style="color:#0ea5e9;">「進捗の見える化」と「競争」</span>が無かっただけ。</p>
     </div>
 
-    <!-- mechanism -->
+    <!-- why it works -->
     <div class="sec mech" style="padding:38px 26px; background:linear-gradient(180deg,#f3fbf4,#eaf7fb);">
       <p class="eyebrow" style="font-size:11px; font-weight:700; letter-spacing:.16em; color:#16a34a; margin:0 0 10px;">WHY IT WORKS</p>
-      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 22px;">根性論じゃない。<br>サボれない設計。</h2>
-      <div class="mech-cards" style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
+      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 22px;">続く理由は、<br>「見える化」×「競争」。</h2>
+      <div class="methods" style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
         <div style="background:#fff; border-radius:18px; padding:18px; box-shadow:0 4px 14px rgba(21,49,75,.05);">
-          <div style="display:inline-block; font-size:10.5px; font-weight:700; color:#0284c7; background:#e3f4fb; padding:4px 10px; border-radius:999px; margin-bottom:8px;">損失回避バイアス</div>
-          <div style="font-weight:900; font-size:16px; margin-bottom:6px;">💰 お金を「預ける」</div>
-          <div style="font-size:13px; line-height:1.75; color:#5d7488;">人は得る喜びより失う痛みを約2倍強く感じる。先に預けるから「サボる＝損」と脳が認識し、体が動く。</div>
+          <div style="font-size:26px; margin-bottom:8px;">📊</div>
+          <div style="font-weight:900; font-size:16px; margin-bottom:6px;">進捗が“見える”</div>
+          <div style="font-size:12.5px; line-height:1.75; color:#5d7488;">ページ数で記録するから、ゴールまでの距離と積み上げが一目でわかる。進捗バーが埋まっていく快感が、次の1ページを連れてくる。</div>
         </div>
         <div style="background:#fff; border-radius:18px; padding:18px; box-shadow:0 4px 14px rgba(21,49,75,.05);">
-          <div style="display:inline-block; font-size:10.5px; font-weight:700; color:#16a34a; background:#e4f7ea; padding:4px 10px; border-radius:999px; margin-bottom:8px;">ピアプレッシャー</div>
-          <div style="font-weight:900; font-size:16px; margin-bottom:6px;">👀 チームが「見ている」</div>
-          <div style="font-size:13px; line-height:1.75; color:#5d7488;">同じ目標の匿名の大学生と組む少人数チーム制。「仲間はもう報告してる」緊張感が毎日を支える。<span style="color:#7d93a8;">※ソロ参加も可能。</span></div>
+          <div style="font-size:26px; margin-bottom:8px;">🏆</div>
+          <div style="font-weight:900; font-size:16px; margin-bottom:6px;">みんなと“競える”</div>
+          <div style="font-size:12.5px; line-height:1.75; color:#5d7488;">週間ページ数と連続記録（ストリーク）で全国ランキング。同じ志望校・同じ資格のライバルの頑張りが、自分の燃料になる。</div>
+        </div>
+        <div style="background:#fff; border-radius:18px; padding:18px; box-shadow:0 4px 14px rgba(21,49,75,.05);">
+          <div style="font-size:26px; margin-bottom:8px;">📣</div>
+          <div style="font-weight:900; font-size:16px; margin-bottom:6px;">応援でつながる</div>
+          <div style="font-size:12.5px; line-height:1.75; color:#5d7488;">仲間から届く「応援（Cheer）」がモチベに。孤独になりがちな受験期を、ゆるくつながって走り切る。</div>
         </div>
       </div>
       <div class="steps" style="display:flex; flex-direction:column; gap:10px;">
         <div style="display:flex; gap:14px; align-items:center; background:#fff; border-radius:14px; padding:14px 16px;">
           <div style="flex-shrink:0; width:30px; height:30px; border-radius:999px; background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:14px;">1</div>
-          <div><div style="font-weight:700; font-size:13.5px;">参加費500円＋継続保証金3,000円を預ける</div><div style="font-size:11.5px; color:#7d93a8;">保証金はやり切れば全額戻る</div></div>
+          <div><div style="font-weight:700; font-size:13.5px;">取り組む参考書を登録</div><div style="font-size:11.5px; color:#7d93a8;">総ページ数をセットして進捗バーに</div></div>
         </div>
         <div style="display:flex; gap:14px; align-items:center; background:#fff; border-radius:14px; padding:14px 16px;">
           <div style="flex-shrink:0; width:30px; height:30px; border-radius:999px; background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:14px;">2</div>
-          <div><div style="font-weight:700; font-size:13.5px;">平日は1日1回、報告（写真／ボタン／タイマー）</div><div style="font-size:11.5px; color:#7d93a8;">サボると1日100円が失効（土日はお休みOK）</div></div>
+          <div><div style="font-weight:700; font-size:13.5px;">毎日「進んだページ数」を入力</div><div style="font-size:11.5px; color:#7d93a8;">10秒で報告、写真も不要</div></div>
         </div>
         <div style="display:flex; gap:14px; align-items:center; background:#fff; border-radius:14px; padding:14px 16px;">
           <div style="flex-shrink:0; width:30px; height:30px; border-radius:999px; background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:14px;">3</div>
-          <div><div style="font-weight:700; font-size:13.5px;">30日完走で預けた3,000円が返金</div><div style="font-size:11.5px; color:#7d93a8;">かかるのはシステム料500円だけ</div></div>
-        </div>
-      </div>
-
-      <!-- 開始日を選べる / 土日はお休みOK -->
-      <div style="display:flex; gap:14px; align-items:flex-start; background:#fff; border:1.5px solid #b7e8c7; border-radius:16px; padding:16px 18px; margin-top:16px; box-shadow:0 4px 14px rgba(21,49,75,.05);">
-        <div style="font-size:24px; line-height:1;">📅</div>
-        <div>
-          <div style="font-weight:900; font-size:14.5px; color:#16a34a; margin-bottom:4px;">開始日は自分で選べる／土日はお休みOK 🌿</div>
-          <div style="font-size:12.5px; color:#5d7488; line-height:1.75;">開始日を<b style="color:#15314b;">8月12日〜9月10日</b>の中から選び、<b style="color:#15314b;">選んだ日から30日間</b>チャレンジ。その<b style="color:#15314b;">30日間に含まれる土日はお休みしてOK</b>（報告しなくても失効しません）。休める日数は開始日によって変わり（おおよそ8〜10日）、<b style="color:#15314b;">失効するのは平日分のみ</b>。日数は開始日ごとに自動計算されるので、無理なく続けられます。</div>
+          <div><div style="font-weight:700; font-size:13.5px;">ランキング＆ストリークで競う</div><div style="font-size:11.5px; color:#7d93a8;">応援し合いながら走り切る</div></div>
         </div>
       </div>
     </div>
 
-    <!-- 報告方法（3択） -->
-    <div class="sec methods-sec" style="padding:38px 26px; background:#fff;">
-      <p class="eyebrow" style="font-size:11px; font-weight:700; letter-spacing:.16em; color:#0ea5e9; margin:0 0 10px;">HOW TO REPORT</p>
-      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 8px;">報告方法は、3つから選べる。</h2>
-      <p style="text-align:center; font-size:12.5px; color:#5d7488; line-height:1.75; margin:0 0 22px;">目標登録のときに、自分に合った続け方を選択。</p>
-      <div class="methods" style="display:flex; flex-direction:column; gap:12px;">
-        <!-- ① 写真 -->
-        <div style="background:#f6fafd; border:1px solid #e3eef5; border-radius:16px; padding:18px;">
-          <div style="font-size:26px; margin-bottom:8px;">📷</div>
-          <div style="font-weight:900; font-size:15px; margin-bottom:5px;">① 写真で報告</div>
-          <div style="font-size:12.5px; color:#5d7488; line-height:1.75;">勉強・筋トレの証拠写真を提出。しっかり記録に残したい人向けの定番スタイル。</div>
+    <!-- ranking -->
+    <div class="sec ranking" style="padding:38px 26px;">
+      <p class="eyebrow" style="font-size:11px; font-weight:700; letter-spacing:.16em; color:#0ea5e9; margin:0 0 10px;">RANKING</p>
+      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 8px;">今週、何ページ進んだ？</h2>
+      <p class="sec-lead" style="font-size:12.5px; color:#5d7488; line-height:1.75; margin:0 0 20px;">週間ページ数と連続記録（ストリーク）で全国ランキング。科目で絞り込めば、同じ志望のライバルが見つかる。</p>
+
+      <div class="rank-card" style="background:#fff; border:1px solid #e3eef5; border-radius:20px; padding:16px; box-shadow:0 12px 30px rgba(14,165,233,.12);">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:0 4px 12px; border-bottom:1px solid #eef2f6;">
+          <div style="font-size:12.5px; font-weight:900; color:#15314b;">週間ランキング</div>
+          <div style="font-size:10.5px; font-weight:700; color:#0284c7; background:#e3f4fb; padding:4px 10px; border-radius:999px;">🔍 英語で絞り込み中</div>
         </div>
-        <!-- ② ボタン -->
-        <div style="background:#f6fafd; border:1px solid #e3eef5; border-radius:16px; padding:18px;">
-          <div style="font-size:26px; margin-bottom:8px;">👆</div>
-          <div style="font-weight:900; font-size:15px; margin-bottom:5px;">② ボタンで報告</div>
-          <div style="font-size:12.5px; color:#5d7488; line-height:1.75;">「今日やった！」をワンタップするだけ。とにかく手軽に習慣を刻みたい人に。</div>
+        <!-- rows -->
+        <div style="display:flex; align-items:center; gap:12px; padding:12px 4px; border-bottom:1px solid #f3f7fa;">
+          <div style="font-size:18px; width:24px; text-align:center;">🥇</div>
+          <div style="flex:1;"><div style="font-weight:900; font-size:13.5px;">みお <span style="font-size:10.5px; color:#0284c7; background:#e3f4fb; padding:2px 7px; border-radius:999px; font-weight:700;">英語</span></div><div style="font-size:11px; color:#9bafc1;">🔥 21日連続</div></div>
+          <div style="font-weight:900; font-size:15px; color:#16a34a;">412<span style="font-size:11px; color:#9bafc1;">p</span></div>
         </div>
-        <!-- ③ タイマー（強調） -->
-        <div style="position:relative; background:linear-gradient(160deg,#eaf7fb,#f3fbf4); border:2px solid #0ea5e9; border-radius:16px; padding:18px; box-shadow:0 8px 22px rgba(14,165,233,.16);">
-          <div style="position:absolute; top:-11px; right:14px; background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; font-size:10.5px; font-weight:900; padding:4px 11px; border-radius:999px; box-shadow:0 4px 10px rgba(14,165,233,.3);">サボれない設計 🔒</div>
-          <div style="font-size:26px; margin-bottom:8px;">⏱️</div>
-          <div style="font-weight:900; font-size:15px; margin-bottom:5px; color:#15314b;">③ タイマーで報告</div>
-          <div style="font-size:12.5px; color:#3f5b75; line-height:1.75;">目標登録時に決めた分数を、<b style="color:#15314b;">アプリ内タイマーで実際に集中</b>。カウントダウンが<b style="color:#15314b;">完了するまで報告ボタンは押せません</b>。「開いてすぐ完了」ができないから、<b style="color:#0284c7;">ごまかしようがない正直ベース</b>の仕組みです。</div>
-          <div style="margin-top:10px; display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #d6eef9; border-radius:999px; padding:5px 11px; font-size:11.5px; font-weight:700; color:#0284c7;">⏱ ◯◯分 集中 <span style="color:#9bafc1; font-weight:500;">とフィードに表示</span></div>
+        <div style="display:flex; align-items:center; gap:12px; padding:12px 4px; border-bottom:1px solid #f3f7fa;">
+          <div style="font-size:18px; width:24px; text-align:center;">🥈</div>
+          <div style="flex:1;"><div style="font-weight:900; font-size:13.5px;">けん <span style="font-size:10.5px; color:#0284c7; background:#e3f4fb; padding:2px 7px; border-radius:999px; font-weight:700;">英語</span></div><div style="font-size:11px; color:#9bafc1;">🔥 14日連続</div></div>
+          <div style="font-weight:900; font-size:15px; color:#16a34a;">388<span style="font-size:11px; color:#9bafc1;">p</span></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; padding:12px 4px; border-bottom:1px solid #f3f7fa;">
+          <div style="font-size:18px; width:24px; text-align:center;">🥉</div>
+          <div style="flex:1;"><div style="font-weight:900; font-size:13.5px;">ゆい <span style="font-size:10.5px; color:#0284c7; background:#e3f4fb; padding:2px 7px; border-radius:999px; font-weight:700;">英語</span></div><div style="font-size:11px; color:#9bafc1;">🔥 9日連続</div></div>
+          <div style="font-weight:900; font-size:15px; color:#16a34a;">351<span style="font-size:11px; color:#9bafc1;">p</span></div>
+        </div>
+        <!-- you -->
+        <div style="display:flex; align-items:center; gap:12px; padding:12px 10px; margin-top:8px; border-radius:12px; background:linear-gradient(120deg,#eaf7fb,#f3fbf4); border:1.5px dashed #0ea5e9;">
+          <div style="font-size:13px; font-weight:900; width:24px; text-align:center; color:#0284c7;">?</div>
+          <div style="flex:1; font-weight:900; font-size:13.5px; color:#0284c7;">あなたはここに載る 👀</div>
+          <div style="font-weight:900; font-size:13px; color:#9bafc1;">--<span style="font-size:11px;">p</span></div>
         </div>
       </div>
-      <p style="text-align:center; font-size:12px; color:#7d93a8; margin:18px 0 0;">どの方法でも、平日1日1回の報告で継続を証明。<b style="color:#16a34a;">「タイマー」なら物理的にサボれない。</b></p>
     </div>
 
-    <!-- money flow + trust (PCで2カラム) -->
-    <div class="flow-region">
-
-      <!-- money flow -->
-      <div class="flow" style="padding:38px 26px;">
-        <p style="font-size:11px; font-weight:700; letter-spacing:.16em; color:#0ea5e9; margin:0 0 10px;">MONEY FLOW</p>
-        <h2 style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 22px;">お金は「没収」<br>されません 👌</h2>
-        <div style="background:linear-gradient(160deg,#f6fafd,#eef9f1); border:1px solid #e3eef5; border-radius:20px; padding:22px 18px;">
-          <div style="text-align:center; margin-bottom:6px;">
-            <div style="font-size:11px; color:#7d93a8;">最初に支払う</div>
-            <div style="font-size:26px; font-weight:900;">¥3,500</div>
-          </div>
-          <div style="text-align:center; color:#b7cdda; font-size:18px;">↓</div>
-          <div style="display:flex; gap:10px; margin:6px 0;">
-            <div style="flex:1; background:#fff; border-radius:14px; padding:12px; text-align:center;">
-              <div style="font-size:10.5px; color:#7d93a8;">参加費</div>
-              <div style="font-size:16px; font-weight:900;">¥500</div>
-            </div>
-            <div style="flex:1.3; background:#e4f7ea; border:1px solid #b7e8c7; border-radius:14px; padding:12px; text-align:center;">
-              <div style="font-size:10.5px; color:#16a34a; font-weight:700;">継続保証金 (Stripe預かり)</div>
-              <div style="font-size:16px; font-weight:900; color:#16a34a;">¥3,000</div>
-            </div>
-          </div>
-          <div style="text-align:center; color:#b7cdda; font-size:13px; margin:4px 0;">↓ 30日完走 🎉</div>
-          <div style="background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; border-radius:14px; padding:16px; text-align:center;">
-            <div style="font-size:11px; opacity:.85;">継続保証金 ¥3,000 が自動で戻る</div>
-            <div style="font-size:20px; font-weight:900;">かかるのは参加費 ¥500 だけ</div>
-          </div>
-        </div>
-        <p style="font-size:12.5px; color:#5d7488; line-height:1.8; margin:16px 2px 0;">世界標準の決済<b style="color:#15314b;">「Stripe」</b>を通じた一時預かり。サボった日（1日100円）が失効するだけで、<b style="color:#15314b;">没収ではありません。</b></p>
+    <!-- subjects (genre) -->
+    <div class="sec subjects" style="padding:8px 26px 38px;">
+      <h2 class="title" style="font-size:18px; font-weight:900; line-height:1.45; margin:0 0 6px; text-align:center;">科目で、ライバルを見つける。</h2>
+      <p class="sec-lead" style="font-size:12px; color:#9bafc1; text-align:center; margin:0 0 16px;">受験・資格の主要ジャンルに対応</p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:560px; margin:0 auto;">
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">英語</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">数学</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">国語</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">物理</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">化学</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">生物</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">日本史</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">世界史</span>
+        <span style="font-size:12px; font-weight:700; color:#fff; background:linear-gradient(120deg,#0ea5e9,#22c55e); border-radius:999px; padding:7px 14px;">TOEIC</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">簿記</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">公務員</span>
+        <span style="font-size:12px; font-weight:700; color:#15314b; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">宅建</span>
+        <span style="font-size:12px; font-weight:700; color:#9bafc1; background:#f6fafd; border:1px solid #e3eef5; border-radius:999px; padding:7px 14px;">…and more</span>
       </div>
-
-      <!-- trust badges -->
-      <div class="trust" style="padding:0 26px 36px;">
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
-          <div style="text-align:center; background:#f6fafd; border-radius:14px; padding:16px 6px;">
-            <div style="font-size:20px;">🔒</div>
-            <div style="font-size:11px; font-weight:700; margin-top:6px; line-height:1.4;">Stripe<br>決済</div>
-          </div>
-          <div style="text-align:center; background:#f6fafd; border-radius:14px; padding:16px 6px;">
-            <div style="font-size:20px;">↩︎</div>
-            <div style="font-size:11px; font-weight:700; margin-top:6px; line-height:1.4;">自動<br>返金</div>
-          </div>
-          <div style="text-align:center; background:#f6fafd; border-radius:14px; padding:16px 6px;">
-            <div style="font-size:20px;">📋</div>
-            <div style="font-size:11px; font-weight:700; margin-top:6px; line-height:1.4;">隠れ費用<br>なし</div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
-    <!-- testimonials -->
+    <!-- how to report -->
+    <div class="sec report" style="padding:38px 26px; background:linear-gradient(180deg,#eaf7fb,#ffffff);">
+      <p class="eyebrow" style="font-size:11px; font-weight:700; letter-spacing:.16em; color:#0ea5e9; margin:0 0 10px;">SO EASY</p>
+      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 8px;">報告は、たった10秒。</h2>
+      <p class="sec-lead" style="font-size:12.5px; color:#5d7488; line-height:1.75; margin:0 0 20px;">「今日進んだページ数」を入力するだけ。写真も、面倒な記録もいらない。続くから、積み上がる。</p>
+      <div style="max-width:420px; margin:0 auto; background:#fff; border:1px solid #e3eef5; border-radius:20px; padding:22px; box-shadow:0 8px 22px rgba(14,165,233,.10);">
+        <div style="font-size:12px; color:#7d93a8; margin-bottom:4px;">📕 英単語ターゲット1900</div>
+        <div style="height:9px; border-radius:999px; background:#eef2f6; overflow:hidden; margin-bottom:8px;">
+          <div style="height:100%; width:64%; border-radius:999px; background:linear-gradient(120deg,#0ea5e9,#22c55e); animation:barGrow 1.4s ease-out both; --w:64%;"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:#9bafc1; margin-bottom:16px;"><span>1,216 / 1,900 ページ</span><span style="color:#16a34a; font-weight:700;">64%</span></div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="flex:1; background:#f6fafd; border:1px solid #e3eef5; border-radius:12px; padding:12px 14px; font-weight:900; font-size:15px; color:#15314b;">＋ 12 <span style="font-size:12px; color:#9bafc1; font-weight:700;">ページ</span></div>
+          <div style="background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; font-weight:900; font-size:13.5px; padding:12px 18px; border-radius:12px;">記録する</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- voices -->
     <div class="sec voices" style="padding:36px 26px; background:#eaf7fb;">
       <p class="eyebrow" style="font-size:11px; font-weight:700; letter-spacing:.16em; color:#0ea5e9; margin:0 0 14px;">VOICES</p>
       <div class="voices-cards" style="display:flex; flex-direction:column; gap:12px;">
         <div style="background:#fff; border-radius:16px; padding:16px 18px;">
           <div style="color:#fbbf24; font-size:13px; margin-bottom:6px;">★★★★★</div>
-          <div style="font-size:13.5px; line-height:1.75; color:#33485e;">「3,000円が惜しくて毎朝ジムに行った。30日後、習慣だけが残った。」</div>
-          <div style="font-size:11.5px; color:#9bafc1; margin-top:8px;">大学2年・K さん</div>
+          <div style="font-size:13.5px; line-height:1.75; color:#33485e;">「“何ページ進んだか”で記録すると、サボりが一発でバレる。焦って机に向かうようになった。」</div>
+          <div style="font-size:11.5px; color:#9bafc1; margin-top:8px;">高3・R さん</div>
         </div>
         <div style="background:#fff; border-radius:16px; padding:16px 18px;">
           <div style="color:#fbbf24; font-size:13px; margin-bottom:6px;">★★★★★</div>
-          <div style="font-size:13.5px; line-height:1.75; color:#33485e;">「チームの仲間が毎日報告してくるから、自分もやらなきゃって。一人じゃ無理だった。」</div>
-          <div style="font-size:11.5px; color:#9bafc1; margin-top:8px;">大学3年・M さん</div>
+          <div style="font-size:13.5px; line-height:1.75; color:#33485e;">「同じ志望校の子にランキングで負けたくなくて、毎日アプリを開くのが習慣になった。」</div>
+          <div style="font-size:11.5px; color:#9bafc1; margin-top:8px;">高2・M さん</div>
         </div>
         <div style="background:#fff; border-radius:16px; padding:16px 18px;">
           <div style="color:#fbbf24; font-size:13px; margin-bottom:6px;">★★★★★</div>
-          <div style="font-size:13.5px; line-height:1.75; color:#33485e;">「先延ばしのTOEIC。強制力って大事。750点とれた。」</div>
-          <div style="font-size:11.5px; color:#9bafc1; margin-top:8px;">大学4年・T さん</div>
+          <div style="font-size:13.5px; line-height:1.75; color:#33485e;">「単語帳を一周できなかった私が、ストリークが途切れるのが惜しくて2周した。」</div>
+          <div style="font-size:11.5px; color:#9bafc1; margin-top:8px;">大学3年・T さん（TOEIC）</div>
         </div>
       </div>
     </div>
 
-    <!-- pricing -->
-    <div class="sec pricing" style="padding:38px 26px;">
-      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 20px; text-align:center;">1日たった約16円で、<br>最高の夏を買う。</h2>
-      <div class="price-card" style="border-radius:20px; overflow:hidden; box-shadow:0 12px 30px rgba(14,165,233,.15);">
+    <!-- free -->
+    <div class="sec free" style="padding:38px 26px;">
+      <h2 class="title" style="font-size:21px; font-weight:900; line-height:1.45; margin:0 0 20px; text-align:center;">ぜんぶ、完全無料。</h2>
+      <div class="free-card" style="border-radius:20px; overflow:hidden; box-shadow:0 12px 30px rgba(14,165,233,.15);">
         <div style="background:linear-gradient(140deg,#0ea5e9,#22c55e); color:#fff; text-align:center; padding:24px;">
-          <div style="font-size:12px; opacity:.85;">参加費</div>
-          <div style="font-size:44px; font-weight:900; line-height:1.1; margin-top:4px;">¥500</div>
-          <div style="font-size:11.5px; opacity:.85;">30日間 = 1日あたり約16円。缶ジュース以下。</div>
+          <div style="font-size:12px; opacity:.85;">利用料金</div>
+          <div style="font-size:44px; font-weight:900; line-height:1.1; margin-top:4px;">¥0</div>
+          <div style="font-size:11.5px; opacity:.85;">参考書の登録も、ランキングも、応援も。ぜんぶ0円。</div>
         </div>
         <div style="padding:18px; background:#fff;">
-          <div style="display:flex; align-items:flex-start; gap:10px; background:#e4f7ea; border:1px solid #b7e8c7; border-radius:14px; padding:14px 16px; margin-bottom:14px;">
-            <div style="font-size:18px;">🛡️</div>
-            <div style="text-align:left;">
-              <div style="font-size:13px; font-weight:900; color:#15314b;">＋ 継続保証金 3,000円</div>
-              <div style="font-size:11.5px; color:#5d7488; line-height:1.6; margin-top:2px;">没収ではなく、やり切れば<b style="color:#16a34a;">全額あなたに戻る</b>お金。自分を本気にさせるための“預け金”です。</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:14px;">
+            <div style="text-align:center; background:#f6fafd; border-radius:12px; padding:14px 6px;">
+              <div style="font-size:20px;">💸</div>
+              <div style="font-size:11px; font-weight:700; margin-top:6px; line-height:1.4;">完全<br>無料</div>
+            </div>
+            <div style="text-align:center; background:#f6fafd; border-radius:12px; padding:14px 6px;">
+              <div style="font-size:20px;">🕶️</div>
+              <div style="font-size:11px; font-weight:700; margin-top:6px; line-height:1.4;">匿名<br>ニックネーム</div>
+            </div>
+            <div style="text-align:center; background:#f6fafd; border-radius:12px; padding:14px 6px;">
+              <div style="font-size:20px;">🚪</div>
+              <div style="font-size:11px; font-weight:700; margin-top:6px; line-height:1.4;">いつでも<br>退会</div>
             </div>
           </div>
-          <a href="#c-entry" style="display:block; text-align:center; background:#15314b; color:#fff; font-weight:900; font-size:16px; padding:16px; border-radius:14px; text-decoration:none;">この夏、自分に賭けてみる</a>
-          <p style="text-align:center; font-size:11px; color:#9bafc1; margin:10px 0 0;">※ 失効は平日のサボった日数分のみ（1日100円）。土日はお休みOK（休める日数は開始日ごとに自動計算）。</p>
+          <a href="#c-entry" style="display:block; text-align:center; background:#15314b; color:#fff; font-weight:900; font-size:16px; padding:16px; border-radius:14px; text-decoration:none;">無料で先行登録する</a>
         </div>
       </div>
     </div>
@@ -347,31 +332,31 @@
     <!-- final CTA -->
     <div class="sec cta" id="c-entry" style="padding:42px 26px; background:linear-gradient(160deg,#0ea5e9 0%,#22c55e 100%); color:#fff; text-align:center;">
       <div style="display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.2); font-size:11.5px; font-weight:700; padding:6px 13px; border-radius:999px; margin-bottom:16px;">
-        <span style="width:7px; height:7px; border-radius:999px; background:#fff; animation:scPulse 1.8s infinite;"></span>定員に達し次第 締切
+        <span style="width:7px; height:7px; border-radius:999px; background:#fff; animation:scPulse 1.8s infinite;"></span>先行登録 受付中
       </div>
-      <h2 style="font-size:26px; font-weight:900; line-height:1.4; margin:0 0 12px;">この夏を、<br>“やり切った夏”に。</h2>
-      <p style="font-size:13.5px; color:rgba(255,255,255,.9); line-height:1.7; margin:0 0 22px;">後悔する前に、今この瞬間にエントリーを。</p>
+      <h2 style="font-size:26px; font-weight:900; line-height:1.4; margin:0 0 12px;">ライバルは、もう<br>ページを進めてる。</h2>
+      <p style="font-size:13.5px; color:rgba(255,255,255,.9); line-height:1.7; margin:0 0 22px;">ローンチしたら、真っ先にお知らせします。<br>今のうちに、無料で先行登録を。</p>
       <div style="background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.35); border-radius:16px; padding:16px; margin-bottom:16px;">
-        <div style="font-size:13px; font-weight:700; margin-bottom:10px;">LINEで友だち追加して先行予約 🔔</div>
+        <div style="font-size:13px; font-weight:700; margin-bottom:10px;">LINEで友だち追加して先行登録 🔔</div>
         <a href="https://lin.ee/oxhB3Sg" target="_blank" rel="noopener" aria-label="LINEで友だち追加"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" style="height:44px; width:auto;"></a>
-        <div style="font-size:11px; color:rgba(255,255,255,.8); margin-top:8px;">最新情報やスタートのご案内をLINEでお届けします</div>
+        <div style="font-size:11px; color:rgba(255,255,255,.8); margin-top:8px;">最新情報やローンチのお知らせをLINEでお届けします</div>
       </div>
       <div style="font-size:12px; color:rgba(255,255,255,.85); margin-bottom:12px;">― または メールで受け取る ―</div>
-      <div class="thanks" id="entry-thanks" style="display:none; background:rgba(255,255,255,.2); border-radius:16px; padding:18px; font-weight:700; font-size:14px;">🎉 先行予約を受け付けました！詳細は後日ご連絡します。</div>
+      <div class="thanks" id="entry-thanks" style="display:none; background:rgba(255,255,255,.2); border-radius:16px; padding:18px; font-weight:700; font-size:14px;">🎉 先行登録を受け付けました！ローンチが決まり次第ご連絡します。</div>
       <form class="entry-form" id="entry-form" onsubmit="handleEntry(event)" style="display:flex; flex-direction:column; gap:10px;">
         <input type="email" id="entry-email" name="email" required autocomplete="email" placeholder="メールアドレスを入力" style="width:100%; box-sizing:border-box; padding:15px 18px; border-radius:14px; border:none; font-size:14px; font-family:inherit; outline:none;">
-        <button type="submit" id="entry-submit" style="width:100%; padding:16px; border-radius:14px; border:none; background:#15314b; color:#fff; font-weight:900; font-size:15px; font-family:inherit; cursor:pointer;">この夏、自分に賭けてみる（先行予約）</button>
+        <button type="submit" id="entry-submit" style="width:100%; padding:16px; border-radius:14px; border:none; background:#15314b; color:#fff; font-weight:900; font-size:15px; font-family:inherit; cursor:pointer;">無料で先行登録する</button>
       </form>
       <p class="entry-error" id="entry-error" style="display:none; font-size:12.5px; font-weight:700; color:#fff; background:rgba(220,38,38,.35); border-radius:12px; padding:12px; margin:12px 0 0;">送信に失敗しました。時間をおいて再度お試しください。</p>
-      <p style="font-size:11px; color:rgba(255,255,255,.7); margin:14px 0 0;">先行予約は無料・決済はスタート確定後</p>
+      <p style="font-size:11px; color:rgba(255,255,255,.7); margin:14px 0 0;">登録は無料・いつでも配信停止できます</p>
     </div>
 
     <div class="ft" style="padding:24px 26px; background:#0c2334; color:#7d93a8; text-align:center; font-size:11px;">
-      <div style="font-weight:900; color:#fff; font-size:14px; margin-bottom:4px;">SummerGoals</div>
-      <div style="margin-bottom:12px;">大学生のための、30日間 限界突破プログラム</div>
-      <div style="display:flex; justify-content:center; gap:18px; margin-bottom:12px;"><a href="/terms.html" style="color:#9bafc1; text-decoration:none;">利用規約</a><a href="/privacy.html" style="color:#9bafc1; text-decoration:none;">プライバシー</a><a href="/tokushoho.html" style="color:#9bafc1; text-decoration:none;">特商法</a></div>
+      <div style="font-weight:900; color:#fff; font-size:14px; margin-bottom:4px;">ススメ</div>
+      <div style="margin-bottom:12px;">参考書の進捗で競う、受験生ランキング</div>
+      <div style="display:flex; justify-content:center; gap:18px; margin-bottom:12px;"><a href="/terms.html" style="color:#9bafc1; text-decoration:none;">利用規約</a><a href="/privacy.html" style="color:#9bafc1; text-decoration:none;">プライバシー</a><a href="/tokushoho.html" style="color:#9bafc1; text-decoration:none;">運営者情報</a></div>
       <div style="margin-bottom:12px;">お問い合わせ：<a href="mailto:iwase.workslab@gmail.com" style="color:#9bafc1; text-decoration:underline;">iwase.workslab@gmail.com</a></div>
-      <div style="color:#456;">© 2026 SummerGoals</div>
+      <div style="color:#456;">© 2026 ススメ</div>
     </div>
   </div>
 </div>
@@ -407,7 +392,6 @@
         body: JSON.stringify({ email: email }),
       });
       if (!res.ok) throw new Error('bad_status_' + res.status);
-      // 成功：フォームを隠してサンクスを表示
       form.style.display = 'none';
       document.getElementById('entry-thanks').style.display = 'block';
     } catch (err) {

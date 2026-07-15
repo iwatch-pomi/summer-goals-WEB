@@ -1,4 +1,4 @@
-// SummerGoals 先行予約 受付エンドポイント（Vercel サーバーレス関数）
+// ススメ 先行登録 受付エンドポイント（Vercel サーバーレス関数）
 //
 // フロント（index.html）から POST /api/preregister に {email} が送られてくる。
 // 受け取ったメールを外部ストレージ（Supabase）へ保存する。
@@ -105,64 +105,61 @@ async function saveToStorage(email, req) {
 // ── 登録完了メールの本文組み立て（純粋関数・テスト用に分離） ──
 export function buildConfirmationMail(to, fromUser) {
   const text = [
-    'この度は SummerGoals の先行予約ありがとうございます。',
+    'この度は「ススメ」の先行登録ありがとうございます。',
     '以下の内容でご登録を受け付けました。',
     '',
     `　メールアドレス：${to}`,
     '',
     '━━━━━━━━━━━━━━━━━━',
-    'SummerGoals とは',
+    'ススメ とは',
     '━━━━━━━━━━━━━━━━━━',
-    '開始日を8月12日〜9月10日から選び、選んだ日から30日間、',
-    '平日に報告して完走すれば、預けた継続保証金3,000円が',
-    '全額返金される、大学生のための習慣化プログラムです。',
+    '参考書・教科書の「進んだページ数」を記録して、',
+    '全国の受験生・資格勢とランキングで競い合える、',
+    '完全無料の進捗アプリです。',
     '',
-    '・開始日は8月12日〜9月10日から自由に選択（選んだ日から30日間）',
-    '・報告方法は3つから選択：①写真 ②ボタン ③タイマー',
-    '　└ ③タイマーは規定時間アプリ内で集中しないと報告できない＝サボれない設計',
-    '・土日はお休みOK（その30日間の土日／開始日により約8〜10日）',
-    '・失効するのは平日分のみ（1日100円・開始日ごとに自動計算）',
-    '・参加費500円 ＋ 継続保証金3,000円（完走で全額返金）',
-    '・決済はスタート確定後にご案内します',
+    '・勉強した“時間”ではなく“進んだページ”で勝負',
+    '・週間ページ数と連続記録（ストリーク）で全国ランキング',
+    '・科目で絞り込み、同じ志望のライバルが見つかる',
+    '・仲間から届く「応援（Cheer）」でモチベUP',
+    '・利用料金はぜんぶ無料（匿名ニックネームOK）',
     '',
-    '開始日が近づきましたら、改めて詳細をご連絡します。',
+    'ローンチが決まりましたら、真っ先にお知らせします。',
     'いましばらくお待ちください。',
     '',
     '※本メールは送信専用アドレスから配信しています。',
-    '― SummerGoals 運営',
+    '― ススメ 運営',
   ].join('\n');
 
   const html = `
   <div style="font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif; color:#15314b; line-height:1.8; max-width:520px;">
     <div style="background:linear-gradient(120deg,#0ea5e9,#22c55e); color:#fff; padding:20px 24px; border-radius:14px 14px 0 0;">
-      <div style="font-weight:900; font-size:18px;">SummerGoals</div>
-      <div style="font-size:13px; opacity:.9; margin-top:4px;">先行予約を受け付けました 🎉</div>
+      <div style="font-weight:900; font-size:18px;">ススメ</div>
+      <div style="font-size:13px; opacity:.9; margin-top:4px;">先行登録を受け付けました 🎉</div>
     </div>
     <div style="border:1px solid #e3eef5; border-top:none; padding:22px 24px; border-radius:0 0 14px 14px;">
-      <p style="margin:0 0 14px;">この度は SummerGoals の先行予約ありがとうございます。<br>以下の内容でご登録を受け付けました。</p>
+      <p style="margin:0 0 14px;">この度は「ススメ」の先行登録ありがとうございます。<br>以下の内容でご登録を受け付けました。</p>
       <p style="margin:0 0 18px; background:#f6fafd; border-radius:10px; padding:12px 14px; font-size:14px;">
         メールアドレス：<b>${escapeHtml(to)}</b>
       </p>
-      <p style="font-weight:900; margin:0 0 6px;">SummerGoals とは</p>
-      <p style="margin:0 0 14px; font-size:14px;">開始日を8月12日〜9月10日から選び、選んだ日から30日間、平日に報告して完走すれば、預けた継続保証金3,000円が全額返金される、大学生のための習慣化プログラムです。</p>
+      <p style="font-weight:900; margin:0 0 6px;">ススメ とは</p>
+      <p style="margin:0 0 14px; font-size:14px;">参考書・教科書の「進んだページ数」を記録して、全国の受験生・資格勢とランキングで競い合える、完全無料の進捗アプリです。</p>
       <ul style="margin:0 0 16px; padding-left:20px; font-size:14px;">
-        <li><b>開始日は8月12日〜9月10日から自由に選択</b>（選んだ日から30日間）</li>
-        <li><b>報告方法は3つから選択</b>：①写真 ②ボタン ③タイマー<br><span style="font-size:12.5px; color:#5d7488;">③タイマーは規定時間アプリ内で集中しないと報告できない＝<b>サボれない設計</b></span></li>
-        <li><b>土日はお休みOK</b>（その30日間の土日／開始日により約8〜10日）</li>
-        <li>失効するのは平日分のみ（1日100円・開始日ごとに自動計算）</li>
-        <li>参加費500円 ＋ 継続保証金3,000円（完走で全額返金）</li>
-        <li>決済はスタート確定後にご案内します</li>
+        <li>勉強した“時間”ではなく<b>“進んだページ”で勝負</b></li>
+        <li><b>週間ページ数と連続記録（ストリーク）</b>で全国ランキング</li>
+        <li>科目で絞り込み、同じ志望のライバルが見つかる</li>
+        <li>仲間から届く「応援（Cheer）」でモチベUP</li>
+        <li>利用料金は<b>ぜんぶ無料</b>（匿名ニックネームOK）</li>
       </ul>
-      <p style="margin:0 0 4px; font-size:14px;">開始日が近づきましたら、改めて詳細をご連絡します。いましばらくお待ちください。</p>
-      <p style="margin:18px 0 0; font-size:11px; color:#9bafc1;">※本メールは送信専用アドレスから配信しています。<br>― SummerGoals 運営</p>
+      <p style="margin:0 0 4px; font-size:14px;">ローンチが決まりましたら、真っ先にお知らせします。いましばらくお待ちください。</p>
+      <p style="margin:18px 0 0; font-size:11px; color:#9bafc1;">※本メールは送信専用アドレスから配信しています。<br>― ススメ 運営</p>
     </div>
   </div>`;
 
   return {
-    from: `SummerGoals <${fromUser}>`,
+    from: `ススメ <${fromUser}>`,
     to,
     bcc: fromUser, // 運営にも控えが届く（不要なら削除）
-    subject: '【SummerGoals】先行予約を受け付けました',
+    subject: '【ススメ】先行登録を受け付けました',
     text,
     html,
   };
